@@ -35,9 +35,11 @@ data['DayOfWeek']=data.index.dayofweek
 data.head()
 
 
-plt.figure(figsize=(30,10))
+plt.figure(figsize=(30,15))
 plt.plot(data.index,data['Close'])
-plt.title('INFY Close price',fontsize=100)
+plt.title('INFY Close price',fontsize=70)
+plt.xlabel("Year",fontsize=40)
+plt.ylabel("Close price",fontsize=40)
 plt.savefig("C:/Users/GIGABYTE/Downloads/Stock_Prediction_Bi-LSTM with Conv-1D/img/INFY_Show_dataset.png")
 plt.show()
 
