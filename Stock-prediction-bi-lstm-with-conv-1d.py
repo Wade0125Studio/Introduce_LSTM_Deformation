@@ -1,9 +1,6 @@
 import numpy as np 
 import pandas as pd 
 import os
-# for dirname, _, filenames in os.walk('/kaggle/input'):
-#     for filename in filenames:
-#         print(os.path.join(dirname, filename))
 import tensorflow as tf
 gpus = tf.config.experimental.list_physical_devices('GPU')
 if gpus:
@@ -23,9 +20,14 @@ def create_dataset(X, y, time_steps=1):
     return np.array(Xs), np.array(ys)
 
 from tensorflow import keras
+from sklearn.metrics import mean_squared_error
+import math
 
-
-
+def return_rmse(test,predicted):
+    
+    rmse = math.sqrt(mean_squared_error(test, predicted))
+    rmse=round(rmse,4)
+    print("The root mean squared error is {}".format(rmse))
 
 data=pd.read_csv('C:/Users/GIGABYTE/Downloads/Stock_Prediction_Bi-LSTM with Conv-1D/Database/INFY.csv',parse_dates=['Date'],index_col='Date')
 data.head()
@@ -113,11 +115,12 @@ y_train_inv=rs_target.inverse_transform(y_train.reshape(1,-1))
 y_test_inv=rs_target.inverse_transform(y_test.reshape(1,-1))
 pred=rs_target.inverse_transform(pred.reshape(1,-1))
 
+return_rmse(y_test_inv,pred)
 
 plt.plot(y_test_inv.flatten(),marker='.',label='True')
 plt.plot(pred.flatten(),'r',marker='.',label='Predicted')
 plt.legend()
-plt.title('INFY Close predict result',fontsize=20)
+plt.title('INFY Close predict result|RMSE:0.7131',fontsize=20)
 plt.savefig("C:/Users/GIGABYTE/Downloads/Stock_Prediction_Bi-LSTM with Conv-1D/img/INFY_Close_predict_result.png")
 plt.show()
 
